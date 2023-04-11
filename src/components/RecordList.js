@@ -1,37 +1,34 @@
 import { useState } from 'react';
 import useDeleteRecords from '../hooks/useDeleteRecords';
-import useSaveRecords from '../hooks/useEditRecords';
 import PhoneCard from './PhoneCard';
 import InputComponent from './InputComponent';
 
 const RecordList = (props) => {
   const { delRecord, data, loading, error } = useDeleteRecords();
-  const { saveRecord, dataSave, loadingSave, errorSave } = useSaveRecords();
-  const [value, setValue] = useState('Edit');
-  const [inputCall, setInputCall] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
+  
+  const editHandler = (index) => {
+      setEditIndex(index);
+  };
+
 
   const deleteHandler = (index) => {
     delRecord(index);
-  };
-
-  const editHandler = () => {
-    setValue('Save');
-    setInputCall(true);
-  };
-
-  const saveHandler = (index) => {
-    saveRecord(index);
   };
 
   return (
     <div>
       {props.recordList?.data &&
         props.recordList.data.map((record, index) => (<>
-          <PhoneCard key={`phone-card-${index}`}>{record.name} {record.phone}</PhoneCard>
-          {inputCall ? <InputComponent /> : null}
+          {editIndex === index ?
+            <InputComponent id={index} /> :
+            <PhoneCard key={`phone-card-${index}`} button={() => editHandler(index)}>
+              {record.name}
+              {record.surname}
+              {record.phone}
+            </PhoneCard>
+          }
           <button onClick={() => deleteHandler(index)}>Delete</button>
-          <button onClick={() => editHandler()}>{value}</button>
-          <button onClick={() => saveHandler(index)}>Save</button>
         </>
         ))}
     </div>

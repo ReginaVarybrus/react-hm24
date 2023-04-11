@@ -1,14 +1,14 @@
 import { useState } from "react";
 import axios from 'axios';
 
-const useSaveRecords = () => {
+const useUpdateRecords = () => {
   const [dataSave, setDataSave] = useState(null);
   const [loadingSave, setLoadingSave] = useState(false);
   const [errorSave, setErrorSave] = useState(undefined);
 
-  const saveRecord = (id) => {
+  const saveRecord = (id, dataSave) => {
     setLoadingSave(true);
-    axios.put(`records/${id}`).then((resp) => {
+    axios.put(`records/${id}`, dataSave).then((resp) => {
       setDataSave(resp);
       setLoadingSave(false);
     });
@@ -17,7 +17,7 @@ const useSaveRecords = () => {
   return { saveRecord, dataSave, loadingSave, errorSave };
 };
 
-export default useSaveRecords;
+export default useUpdateRecords;
 
 // Затем скачайте код лекции, запустите его и добавте в него PUT запрос 
 // для редактирования записей. 
