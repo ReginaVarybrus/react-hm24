@@ -22,12 +22,15 @@ const RecordList = (props) => {
         props.recordList.data.map((record, index) => (<>
           {editIndex === index ?
             <InputComponent id={index} /> :
-            <PhoneCard key={`phone-card-${index}`} button={() => editHandler(index)}>
+            <PhoneCard key={`phone-card-${index}`}>
               {record.name}
               {record.surname}
               {record.phone}
             </PhoneCard>
           }
+          {editIndex === index ?
+          null :
+          <button onClick={() => editHandler(index)}>Edit</button>}
           <button onClick={() => deleteHandler(index)}>Delete</button>
         </>
         ))}
